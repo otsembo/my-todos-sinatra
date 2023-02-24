@@ -1,67 +1,96 @@
-class TodoController < Sinatra::Base
+class TodoController < AppController
 
     set :views, './app/views'
+    set :default_content_type, :html
 
-    # before do
-    #     @data = JSON.parse(request.body.read) 
-    # end
-
+    # @method: Display a small welcome message
     get '/hello' do
         "Our very first controller"
     end
 
+    # @method: Add a new TO-DO to the DB
     post '/todos/create' do
-        data = JSON.parse(request.body.read) 
         begin
-            # approach 1 (individual columns)
-            # title = data["title"]
-            # description = data["description"]
-            # todo = Todo.create(title: title, description: description, createdAt: today)
-            # todo.to_json
-
-            # approach 2 (hash of columns)
-            today = Time.now
-            data["createdAt"] = today
-            todo = Todo.create(data)
-            [201, todo.to_json]
+            todo = Todo.create( self.data(create: true) )
+            json_response(code: 201, data: todo)
         rescue => e
-            [422 ,{
-                error: e.message
-            }.to_json]
+            json_response(code: 422, data: { error: e.message })
         end
     end
 
+    # @method: Display all todos
     get '/todos' do
         todos = Todo.all
-        [200, todos.to_json]
+        json_response(data: todos)
     end
 
+    # @view: Renders an erb file which shows all TODOs
+    # erb has content_type because we want to override the default set above
     get '/view/todos' do
-        @todos = Todo.all
-        erb :todos 
+        @todos = Todo.all.map { |todo|
+          {
+            todo: todo,
+            badge: todo_status_badge(todo.status)
+          }
+        }
+        @i = 1
+        erb :todos, :format => :html
     end
 
+    # @method: Update existing TO-DO according to :id
     put '/todos/update/:id' do
         begin
-            todo_id = params['id'].to_i
-            todo = Todo.find(todo_id)
-            todo.update(data)
-            { message: "todo updated successfully" }.to_json
+            todo = Todo.find(self.todo_id)
+            todo.update(self.data)
+            json_response(data: { message: "todo updated successfully" })
         rescue => e
-            [422, { error: e.message }.to_json]
+            json_response(code: 422 ,data: { error: e.message })
         end
     end
 
+    # @method: Delete TO-DO based on :id
     delete '/todos/destroy/:id' do
         begin
-            todo = Todo.find(convert_id(params))
+            todo = Todo.find(self.todo_id)
             todo.destroy
-            { message: "todo deleted successfully" }.to_json 
+            json_response(data: { message: "todo deleted successfully" })
         rescue => e
-            [422, { error: e.message }.to_json]
+          json_response(code: 422, data: { error: e.message })
         end
     end
 
+
+    private
+
+    # @helper: format body data
+    def data(create: false)
+        payload = JSON.parse(request.body.read)
+        if create
+            payload["createdAt"] = Time.now
+        end
+        payload
+    end
+
+    # @helper: retrieve to-do :id
+    def todo_id
+        params['id'].to_i
+    end
+
+    # @helper: format status style
+    def todo_status_badge(status)
+        case status
+            when 'CREATED'
+                'bg-info'
+            when 'ONGOING'
+                'bg-success'
+            when 'CANCELLED'
+                'bg-primary'
+            when 'COMPLETED'
+                'bg-warning'
+            else
+                'bg-dark'
+        end
+    end
 
 
 end

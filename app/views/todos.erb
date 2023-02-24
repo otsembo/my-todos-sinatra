@@ -1,19 +1,31 @@
-<!DOCTYPE html>
-<html>
+<div class="mt-5">
+  <h2>Here are some of your tasks</h2>
 
-    <head>
-        <title>Hello ERB</title>
-    </head>
-
-    <body>
-        <p>Welcome to your list of tasks</p>
-
-        <ol type="1">
-            <% @todos.each do |todo|  %>
-                <li> <%= todo.description %> => <%= todo.title %> </li>
-            <% end %>
-        </ol>
-        
-    </body>
-
-</html>
+  <table class="table">
+    <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Title</th>
+          <th scope="col">Description</th>
+          <th scope="col">Created</th>
+          <th scope="col">Status</th>
+        </tr>
+    </thead>
+    <tbody>
+    <% @todos.each do |x|  %>
+        <tr>
+          <th scope="row"><%= @i  %> </th>
+          <td><%= x[:todo].title %></td>
+          <td><%= x[:todo].description %></td>
+          <td><%= x[:todo].createdAt %></td>
+          <td>
+            <span class="badge <%= x[:badge] %>">
+              <%= x[:todo].status %>
+            </span>
+          </td>
+        </tr>
+      <% @i += 1 %>
+    <% end %>
+    </tbody>
+  </table>
+</div>

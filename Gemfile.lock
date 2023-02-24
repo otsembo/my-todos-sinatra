@@ -61,5 +61,8 @@ DEPENDENCIES
   sinatra-activerecord (~> 2.0, >= 2.0.26)
   sqlite3 (~> 1.6, >= 1.6.1)
 
+RUBY VERSION
+   ruby 3.0.2p107
+
 BUNDLED WITH
    2.3.14
