@@ -8,4 +8,4 @@ development:
 
 production:
   <<: *default
-  database: db/todos-prod.sqlite3
+  database: db/todos-prod.db
