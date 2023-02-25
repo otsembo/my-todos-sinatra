@@ -1,6 +1,6 @@
 source "https://rubygems.org/"
 
-ruby '3.0.2'
+ruby File.read('.ruby-version').strip
 
 gem 'sinatra', '~> 3.0', '>= 3.0.5'
 
@@ -11,6 +11,8 @@ gem 'rake', '~> 13.0', '>= 13.0.6'
 gem 'sqlite3', '~> 1.6', '>= 1.6.1'
 
 gem 'sinatra-activerecord', '~> 2.0', '>= 2.0.26'
+
+gem 'bcrypt', '~> 3.1', '>= 3.1.18'
 
 gem 'puma', '~> 6.1'
 

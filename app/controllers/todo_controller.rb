@@ -1,7 +1,6 @@
 class TodoController < AppController
 
     set :views, './app/views'
-    set :default_content_type, :html
 
     # @method: Display a small welcome message
     get '/hello' do
@@ -34,7 +33,7 @@ class TodoController < AppController
           }
         }
         @i = 1
-        erb :todos, :format => :html
+        erb_response :todos
     end
 
     # @method: Update existing TO-DO according to :id
