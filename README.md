@@ -10,6 +10,8 @@ My-Todos is a basic API built with ruby's Sinatra DSL.
 
 This project is a demo that shows the power of the DSL in building server-side applications quickly.
 
+The application has been built with the MVC design pattern.
+
 ## Pre-Requisites
 In order to use this repository you will need the following:
 
@@ -48,13 +50,17 @@ You can setup this repository by following this manual
     ```{shell}
    bundle install
    ```
-3. Run the application
+3. Perform any pending database migrations
+   ```{shell}
+   rake db:migrate
+   ```
+4. Run the application
     ```{shell}
     rake start
     ```
-4. Open the application from your browser
+5. Open the application from your browser
     ```
-   https://localhost:9292
+   http://localhost:9292
    ```
    
 ## Application
@@ -65,13 +71,30 @@ This application is a simple web API that allows users to:
 - Filter TODO items by date.
 - Delete a TODO item.
 
-### TODO PROPERTIES
-- `id` => `Integer` - Unique identifier.
-- `title` => `String` - The name of the task.
-- `description` => `String` - A short description about the task.
-- `due` => `Date` - The due date set.
-- `createdAt` => `Date` - The date the task was created.
-- `status` => `ENUM [CREATED, ONGOING, COMPLETED, CANCELLED]` - The status of the task.
+### MODELS
+Database schema definitions.
+
+#### TODO
+
+| COLUMN      | DATA TYPE                                       | DESCRIPTION                         | 
+|-------------|-------------------------------------------------|-------------------------------------|
+| id          | Integer                                         | Unique identifier.                  |
+| title       | String                                          | The name of the task.               |
+| description | String                                          | A short description about the task. |
+| due         | Date                                            | The set due date for the task.      |
+| createdAt   | Date                                            | The date the task was created.      |
+| status      | ENUM `[CREATED, ONGOING, COMPLETED, CANCELLED]` | TThe status of the task.            |
+
+
+#### USER
+| COLUMN        | DATA TYPE | DESCRIPTION                           | 
+|---------------|-----------|---------------------------------------|
+| id            | Integer   | Unique identifier.                    |
+| full_name     | String    | User's full name.                     |
+| password_hash | String    | User's password hashed with `BCrypt`. |
+| updated_at    | Date      | The date the user was updated.        |
+| createdAt     | Date      | The date the user was created.        |
+
 
 ### ROUTES
 
