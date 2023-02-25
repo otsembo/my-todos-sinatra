@@ -125,6 +125,7 @@ This application is a simple web API that allows users to:
 6. `/todos/update/:id` - Update an existing TODO.
 7. `/todos/delete/:id` - Delete a TODO item.
 8. `/view/todos` - Render a table of all todos using Bootstrap and ERB
+
 ![Todo Table](screens/todo_table.png)
 
 ## LICENSE
