@@ -73,14 +73,58 @@ This application is a simple web API that allows users to:
 - `createdAt` => `Date` - The date the task was created.
 - `status` => `ENUM [CREATED, ONGOING, COMPLETED, CANCELLED]` - The status of the task.
 
+### ROUTES
 
-The following routes are ready for use:
 1. `/hello` - Presents a simple welcome message.
-2. `/todos/create` - Add a new TODO item.
-3. `/todos` - List all TODO items.
-4. `/todos/update/:id` - Update an existing TODO.
-5. `/todos/delete/:id` - Delete a TODO item.
-6. `/view/todos` - Render a table of all todos using Bootstrap and ERB
+2. `/auth/register` - Create a new user account.
+   
+   ```{json}
+   ## REQUEST BODY
+   {
+    "full_name": "John Doe",
+    "email": "mail@mail.com",
+    "password": "12345678"
+   }
+   ```
+3. `/auth/login` - Log in a user using email and password.
+
+   ```{json}
+   ## REQUEST BODY
+   {
+    "email": "mail@mail.com",
+    "password": "12345678"
+   }
+   ```
+4. `/todos/create` - Add a new TODO item.
+
+   ```{json}
+   ## REQUEST BODY
+   {
+    "title": "Make Breakfast",
+    "description": "Prepare milk and cereal",
+    "due": "2023-09-09"
+   }
+   ```
+5. `/todos` - List all TODO items.
+
+   ```{json}
+   ## RESPONSE SAMPLE
+   {
+    "data": [
+        {
+            "id": 2,
+            "title": "Running another DSA practice 2",
+            "description": "A wild desc",
+            "due": "2023-02-24T00:00:00.000Z",
+            "createdAt": "2023-02-24T09:34:41.856Z",
+            "status": "CREATED"
+        }],
+    "message": "SUCCESS"
+   }
+   ```
+6. `/todos/update/:id` - Update an existing TODO.
+7. `/todos/delete/:id` - Delete a TODO item.
+8. `/view/todos` - Render a table of all todos using Bootstrap and ERB
 ![Todo Table](screens/todo_table.png)
 
 ## LICENSE
