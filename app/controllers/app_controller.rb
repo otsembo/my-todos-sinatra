@@ -21,7 +21,7 @@ class AppController < Sinatra::Base
 
   # @api: Format the json response
   def json_response(code: 200, data: nil)
-    status = code == 200 ? "SUCCESS" : "FAILED"
+    status = [200, 201].include?(code) ? "SUCCESS" : "FAILED"
     headers['Content-Type'] = 'application/json'
     if data
       [ code, { data: data, message: status }.to_json ]

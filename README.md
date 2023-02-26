@@ -65,6 +65,9 @@ You can setup this repository by following this manual
    
 ## Application
 This application is a simple web API that allows users to:
+
+- Register a new account.
+- Log in to existing account.
 - Create TODO items.
 - Update individual TODO items.
 - View all TODO items.

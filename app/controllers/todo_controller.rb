@@ -25,7 +25,7 @@ class TodoController < AppController
 
     # @view: Renders an erb file which shows all TODOs
     # erb has content_type because we want to override the default set above
-    get '/view/todos' do
+    get '/' do
         @todos = Todo.all.map { |todo|
           {
             todo: todo,

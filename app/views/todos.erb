@@ -1,18 +1,32 @@
 <div class="mt-5">
-  <h2>Here are some of your tasks</h2>
 
-  <table class="table">
-    <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Title</th>
-          <th scope="col">Description</th>
-          <th scope="col">Created</th>
-          <th scope="col">Status</th>
-        </tr>
-    </thead>
-    <tbody>
-    <% @todos.each do |x|  %>
+  <% if @todos.empty? %>
+
+    <div class="row justify-content-center mt-5">
+      <div class="card col-lg-4 col-sm-12 col-md-6">
+        <img src="https://img.icons8.com/color/96/null/nothing-found.png"
+             class="card-img-top" alt="nothing" style="object-fit: inherit;">
+        <div class="card-body">
+          <p class="card-text">You have no tasks created yet!</p>
+        </div>
+      </div>
+    </div>
+
+  <% else %>
+    <h2>Here are some of your tasks</h2>
+    <table class="table table-bordered">
+      <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Title</th>
+        <th scope="col">Description</th>
+        <th scope="col">Created</th>
+        <th scope="col">Status</th>
+      </tr>
+      </thead>
+      <tbody>
+
+      <% @todos.each do |x|  %>
         <tr>
           <th scope="row"><%= @i  %> </th>
           <td><%= x[:todo].title %></td>
@@ -24,8 +38,11 @@
             </span>
           </td>
         </tr>
-      <% @i += 1 %>
-    <% end %>
-    </tbody>
-  </table>
+        <% @i += 1 %>
+      <% end %>
+      </tbody>
+    </table>
+
+  <% end %>
+
 </div>
