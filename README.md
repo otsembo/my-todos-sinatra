@@ -10,6 +10,8 @@ My-Todos is a basic API built with ruby's Sinatra DSL.
 
 This project is a demo that shows the power of the DSL in building server-side applications quickly.
 
+The application has been built with the MVC design pattern.
+
 ## Pre-Requisites
 In order to use this repository you will need the following:
 
@@ -48,13 +50,17 @@ You can setup this repository by following this manual
     ```{shell}
    bundle install
    ```
-3. Run the application
+3. Perform any pending database migrations
+   ```{shell}
+   rake db:migrate
+   ```
+4. Run the application
     ```{shell}
     rake start
     ```
-4. Open the application from your browser
+5. Open the application from your browser
     ```
-   https://localhost:9292
+   http://localhost:9292
    ```
    
 ## Application
@@ -65,22 +71,84 @@ This application is a simple web API that allows users to:
 - Filter TODO items by date.
 - Delete a TODO item.
 
-### TODO PROPERTIES
-- `id` => `Integer` - Unique identifier.
-- `title` => `String` - The name of the task.
-- `description` => `String` - A short description about the task.
-- `due` => `Date` - The due date set.
-- `createdAt` => `Date` - The date the task was created.
-- `status` => `ENUM [CREATED, ONGOING, COMPLETED, CANCELLED]` - The status of the task.
+### MODELS
+Database schema definitions.
+
+#### TODO
+
+| COLUMN      | DATA TYPE                                       | DESCRIPTION                         | 
+|-------------|-------------------------------------------------|-------------------------------------|
+| id          | Integer                                         | Unique identifier.                  |
+| title       | String                                          | The name of the task.               |
+| description | String                                          | A short description about the task. |
+| due         | Date                                            | The set due date for the task.      |
+| createdAt   | Date                                            | The date the task was created.      |
+| status      | ENUM `[CREATED, ONGOING, COMPLETED, CANCELLED]` | TThe status of the task.            |
 
 
-The following routes are ready for use:
+#### USER
+| COLUMN        | DATA TYPE | DESCRIPTION                           | 
+|---------------|-----------|---------------------------------------|
+| id            | Integer   | Unique identifier.                    |
+| full_name     | String    | User's full name.                     |
+| password_hash | String    | User's password hashed with `BCrypt`. |
+| updated_at    | Date      | The date the user was updated.        |
+| createdAt     | Date      | The date the user was created.        |
+
+
+### ROUTES
+
 1. `/hello` - Presents a simple welcome message.
-2. `/todos/create` - Add a new TODO item.
-3. `/todos` - List all TODO items.
-4. `/todos/update/:id` - Update an existing TODO.
-5. `/todos/delete/:id` - Delete a TODO item.
-6. `/view/todos` - Render a table of all todos using Bootstrap and ERB
+2. `/auth/register` - Create a new user account.
+   
+   ```{json}
+   ## REQUEST BODY
+   {
+    "full_name": "John Doe",
+    "email": "mail@mail.com",
+    "password": "12345678"
+   }
+   ```
+3. `/auth/login` - Log in a user using email and password.
+
+   ```{json}
+   ## REQUEST BODY
+   {
+    "email": "mail@mail.com",
+    "password": "12345678"
+   }
+   ```
+4. `/todos/create` - Add a new TODO item.
+
+   ```{json}
+   ## REQUEST BODY
+   {
+    "title": "Make Breakfast",
+    "description": "Prepare milk and cereal",
+    "due": "2023-09-09"
+   }
+   ```
+5. `/todos` - List all TODO items.
+
+   ```{json}
+   ## RESPONSE SAMPLE
+   {
+    "data": [
+        {
+            "id": 2,
+            "title": "Running another DSA practice 2",
+            "description": "A wild desc",
+            "due": "2023-02-24T00:00:00.000Z",
+            "createdAt": "2023-02-24T09:34:41.856Z",
+            "status": "CREATED"
+        }],
+    "message": "SUCCESS"
+   }
+   ```
+6. `/todos/update/:id` - Update an existing TODO.
+7. `/todos/delete/:id` - Delete a TODO item.
+8. `/view/todos` - Render a table of all todos using Bootstrap and ERB
+
 ![Todo Table](screens/todo_table.png)
 
 ## LICENSE

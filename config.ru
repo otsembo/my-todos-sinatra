@@ -1,3 +1,4 @@
 require_relative './config/environment'
 
-run TodoController
+use TodoController
+run UserController
