@@ -9,3 +9,7 @@ development:
 production:
   <<: *default
   database: db/todos-prod.db
+
+test:
+  <<: *default
+  database: db/todos-test.sqlite3
